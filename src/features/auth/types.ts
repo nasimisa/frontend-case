@@ -9,6 +9,10 @@ export interface LoginPayload {
   password: string;
 }
 
+export interface LogoutPayload {
+  refresh: string;
+}
+
 export interface AuthResponse {
   access: string;
   refresh: string;

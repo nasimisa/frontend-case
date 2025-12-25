@@ -3,7 +3,8 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { login as loginApi, logout as logoutApi, fetchCurrentUser } from './api';
 import { User } from './types';
-import { setTokens, clearTokens, getAccessToken } from '@/shared/utils/token';
+import { setTokens, clearTokens, getAccessToken, getRefreshToken } from '@/shared/utils/token';
+import { getApiErrorMessage } from '@/shared/utils/error';
 
 interface AuthContextValue {
   user: User | null;
@@ -43,16 +44,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = async (username: string, password: string) => {
-    const { access, refresh } = await loginApi({ username, password });
-    setTokens(access, refresh);
+    try {
+      const { access, refresh } = await loginApi({ username, password });
+      setTokens(access, refresh);
 
-    const me = await fetchCurrentUser();
-    setUser(me);
+      const me = await fetchCurrentUser();
+      setUser(me);
+    } catch (error) {
+      throw getApiErrorMessage(error);
+    }
   };
 
   const logout = async () => {
     try {
-      await logoutApi();
+      const refresh = getRefreshToken();
+      if (refresh) {
+        await logoutApi({ refresh });
+      }
     } finally {
       clearTokens();
       setUser(null);
