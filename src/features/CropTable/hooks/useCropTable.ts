@@ -1,14 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { fetchCropTable } from '../api';
-import { CropRow } from '../types';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { getNumberParam, getStringParam } from '../utils';
+import { useGetCropTable } from '../api/useGetCropTable';
 
 export const useCropTable = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const pathname = usePathname();
 
   // derive state from URL
@@ -23,37 +20,19 @@ export const useCropTable = () => {
   const region = getStringParam(searchParams, 'region');
   const variety = getStringParam(searchParams, 'variety');
 
-  const [rows, setRows] = useState<CropRow[]>([]);
-  const [total, setTotal] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const params = {
+    page,
+    page_size: pageSize as 10 | 25 | 50 | 100,
+    ordering,
+    crop_name: crop_name || undefined,
+    country: country || undefined,
+    region: region || undefined,
+    variety: variety || undefined,
+    status: status || undefined,
+    search: search || undefined,
+  };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchCropTable({
-          page,
-          page_size: pageSize as 10 | 25 | 50 | 100,
-          ordering,
-          crop_name: crop_name || undefined,
-          country: country || undefined,
-          region: region || undefined,
-          variety: variety || undefined,
-          status: status || undefined,
-          search: search || undefined,
-        });
-
-        setRows(data.results);
-        setTotal(data.count);
-        setTotalPages(data.total_pages);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [page, pageSize, ordering, crop_name, country, status, search, region, variety]);
+  const { data, isLoading } = useGetCropTable(params);
 
   // URL updater
   const updateParams = (next: Record<string, string | number | undefined>) => {
@@ -72,15 +51,16 @@ export const useCropTable = () => {
       return;
     }
 
-    router.push(`${pathname}?${updated.toString()}`);
+    //  to prevent unnecessary _rcs calls/rerenders
+    window.history.pushState({}, '', `${pathname}?${updated.toString()}`);
   };
 
   return {
     // data
-    rows,
-    loading,
-    total,
-    totalPages,
+    rows: data?.results ?? [],
+    isLoading,
+    total: data?.count ?? 0,
+    totalPages: data?.total_pages ?? 0,
 
     // state
     page,

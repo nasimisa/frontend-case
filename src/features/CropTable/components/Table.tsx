@@ -7,7 +7,7 @@ import { TableHeader } from './TableHeader';
 const SKELETON_ROWS = 5;
 
 export const Table = () => {
-  const { rows, loading } = useCropTable();
+  const { rows, isLoading } = useCropTable();
 
   return (
     <Box overflowX='auto'>
@@ -17,7 +17,7 @@ export const Table = () => {
         </Thead>
 
         <Tbody>
-          {loading && (
+          {isLoading && (
             <>
               {Array.from({ length: SKELETON_ROWS }).map((_, i) => (
                 <Tr key={i}>
@@ -31,7 +31,7 @@ export const Table = () => {
             </>
           )}
 
-          {!loading && rows.length === 0 && (
+          {!isLoading && rows.length === 0 && (
             <Tr>
               <Td colSpan={8}>
                 <Text textAlign='center' py={6} color='gray.500'>
@@ -41,7 +41,7 @@ export const Table = () => {
             </Tr>
           )}
 
-          {!loading &&
+          {!isLoading &&
             rows.map(row => (
               <Tr key={row.id}>
                 <Td>{row.id}</Td>

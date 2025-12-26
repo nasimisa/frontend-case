@@ -1,7 +1,8 @@
 import apiClient from '@/shared/api/client';
-import { CropTableResponse } from './types';
+import { CropTableResponse } from '../types';
+import { useQuery } from '@tanstack/react-query';
 
-export interface FetchCropTableParams {
+interface FetchCropTableParams {
   page: number;
   page_size: 10 | 25 | 50 | 100;
   ordering?: string;
@@ -20,4 +21,11 @@ export const fetchCropTable = async (params: FetchCropTableParams): Promise<Crop
   const { data } = await apiClient.get<CropTableResponse>('/api/table/data/', { params });
 
   return data;
+};
+
+export const useGetCropTable = (params: FetchCropTableParams) => {
+  return useQuery({
+    queryKey: ['crop-table', params],
+    queryFn: () => fetchCropTable(params),
+  });
 };
