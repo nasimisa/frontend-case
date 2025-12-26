@@ -57,17 +57,22 @@ export const useCropTable = () => {
 
   // URL updater
   const updateParams = (next: Record<string, string | number | undefined>) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const current = new URLSearchParams(searchParams.toString());
+    const updated = new URLSearchParams(searchParams.toString());
 
     Object.entries(next).forEach(([key, value]) => {
       if (value === undefined || value === '') {
-        params.delete(key);
+        updated.delete(key);
       } else {
-        params.set(key, String(value));
+        updated.set(key, String(value));
       }
     });
 
-    router.push(`${pathname}?${params.toString()}`);
+    if (current.toString() === updated.toString()) {
+      return;
+    }
+
+    router.push(`${pathname}?${updated.toString()}`);
   };
 
   return {

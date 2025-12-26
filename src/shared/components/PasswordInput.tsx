@@ -1,3 +1,5 @@
+'use client';
+
 import { Input, InputGroup, InputRightElement, IconButton } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useState } from 'react';

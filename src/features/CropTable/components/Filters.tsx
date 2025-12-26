@@ -3,8 +3,8 @@
 import { Box, Input, Select, SimpleGrid, FormControl, FormLabel } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useCropTable } from '../hooks/useCropTable';
-import { useDebouncedValue } from '../hooks/useDebouncedValue';
 import { CropStatus } from '../types';
+import { useDebounce } from '@/shared/hooks/useDebounce';
 
 const STATUS_OPTIONS: CropStatus[] = [
   'planned',
@@ -19,13 +19,26 @@ export const Filters = () => {
   const { crop_name, country, region, variety, status, search, setFilters, setSearch } =
     useCropTable();
 
-  const [searchInput, setSearchInput] = useState(search);
-  const debouncedSearch = useDebouncedValue(searchInput, 400);
+  const [textFilters, setTextFilters] = useState({
+    search,
+    crop_name,
+    country,
+    region,
+    variety,
+  });
 
-  // sync debounced search → URL
+  const debouncedFilters = useDebounce(textFilters, 400);
+
   useEffect(() => {
-    setSearch(debouncedSearch);
-  }, [debouncedSearch, setSearch]);
+    setSearch(debouncedFilters.search);
+
+    setFilters({
+      crop_name: debouncedFilters.crop_name,
+      country: debouncedFilters.country,
+      region: debouncedFilters.region,
+      variety: debouncedFilters.variety,
+    });
+  }, [debouncedFilters, setFilters, setSearch]);
 
   return (
     <Box mb={6}>
@@ -34,8 +47,13 @@ export const Filters = () => {
           <FormLabel>Search</FormLabel>
           <Input
             placeholder='Search crops, regions, researchers...'
-            value={searchInput}
-            onChange={e => setSearchInput(e.target.value)}
+            value={textFilters.search}
+            onChange={e =>
+              setTextFilters(prev => ({
+                ...prev,
+                search: e.target.value,
+              }))
+            }
           />
         </FormControl>
 
@@ -43,8 +61,13 @@ export const Filters = () => {
           <FormLabel>Crop</FormLabel>
           <Input
             placeholder='e.g. Wheat'
-            value={crop_name}
-            onChange={e => setFilters({ crop_name: e.target.value })}
+            value={textFilters.crop_name}
+            onChange={e =>
+              setTextFilters(prev => ({
+                ...prev,
+                crop_name: e.target.value,
+              }))
+            }
           />
         </FormControl>
 
@@ -52,8 +75,13 @@ export const Filters = () => {
           <FormLabel>Country</FormLabel>
           <Input
             placeholder='e.g. Brazil'
-            value={country}
-            onChange={e => setFilters({ country: e.target.value })}
+            value={textFilters.country}
+            onChange={e =>
+              setTextFilters(prev => ({
+                ...prev,
+                country: e.target.value,
+              }))
+            }
           />
         </FormControl>
 
@@ -61,8 +89,13 @@ export const Filters = () => {
           <FormLabel>Region</FormLabel>
           <Input
             placeholder='e.g. Central'
-            value={region}
-            onChange={e => setFilters({ region: e.target.value })}
+            value={textFilters.region}
+            onChange={e =>
+              setTextFilters(prev => ({
+                ...prev,
+                region: e.target.value,
+              }))
+            }
           />
         </FormControl>
 
@@ -70,8 +103,13 @@ export const Filters = () => {
           <FormLabel>Variety</FormLabel>
           <Input
             placeholder='e.g. Durum'
-            value={variety}
-            onChange={e => setFilters({ variety: e.target.value })}
+            value={textFilters.variety}
+            onChange={e =>
+              setTextFilters(prev => ({
+                ...prev,
+                variety: e.target.value,
+              }))
+            }
           />
         </FormControl>
 

@@ -70,7 +70,7 @@ export const UserForm = () => {
   };
 
   return (
-    <Box maxW='600px' mx='auto' py={8} px={3}>
+    <Box maxW='600px' mx='auto'>
       <Heading mb={6}>User form</Heading>
 
       <form onSubmit={handleSubmit(onSubmit)}>
