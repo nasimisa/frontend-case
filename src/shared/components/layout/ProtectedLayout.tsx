@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@/features/auth/useAuth';
+import { useAuth } from '@/features/Auth/useAuth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { Spinner, Center } from '@chakra-ui/react';

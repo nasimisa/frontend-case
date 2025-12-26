@@ -1,7 +1,7 @@
 'use client';
 
 import { Flex, Text, Button } from '@chakra-ui/react';
-import { useAuth } from '@/features/auth/useAuth';
+import { useAuth } from '@/features/Auth/useAuth';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/shared/utils/routes';
 
