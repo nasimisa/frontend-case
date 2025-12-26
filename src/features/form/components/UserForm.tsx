@@ -13,13 +13,14 @@ import {
   Textarea,
   VStack,
 } from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formSchema } from '../schema';
 import { FormValues } from '../types';
 import { submitForm } from '../api';
 import { useAppToast } from '@/shared/hooks/useAppToast';
 import { getApiErrorMessage } from '@/shared/utils/error';
+import { PasswordInput } from '@/shared/components/PasswordInput';
 
 export const UserForm = () => {
   const { showToast } = useAppToast();
@@ -30,6 +31,7 @@ export const UserForm = () => {
     watch,
     reset,
     formState: { errors, isSubmitting },
+    control,
   } = useForm<FormValues>({
     resolver: yupResolver(formSchema),
     defaultValues: {
@@ -79,7 +81,18 @@ export const UserForm = () => {
 
           <FormControl isInvalid={!!errors.password}>
             <FormLabel>Password</FormLabel>
-            <Input type='password' {...register('password')} placeholder='Enter password' />
+            <Controller
+              name='password'
+              control={control}
+              render={({ field }) => (
+                <PasswordInput
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  placeholder='Enter password'
+                />
+              )}
+            />
             <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
           </FormControl>
 

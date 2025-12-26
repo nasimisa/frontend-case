@@ -4,6 +4,7 @@ import { ContactMethod } from './types';
 export const formSchema = yup.object({
   full_name: yup
     .string()
+    .trim()
     .required('Full name is required')
     .matches(/^[A-Za-z\s]+$/, 'Only letters are allowed')
     .min(3, 'Minimum 3 characters')
@@ -13,6 +14,7 @@ export const formSchema = yup.object({
 
   password: yup
     .string()
+    .trim()
     .required('Password is required')
     .min(8)
     .matches(/[a-z]/, 'Must contain lowercase letter')
@@ -21,33 +23,30 @@ export const formSchema = yup.object({
 
   contact_method: yup.mixed<ContactMethod>().oneOf(['email', 'phone', 'both']).required(),
 
-  phone: yup
-    .string()
-    .nullable()
-    .when('contact_method', {
-      is: (val: ContactMethod) => val === 'phone' || val === 'both',
-      then: schema =>
-        schema.required('Phone is required').matches(/^\+?[0-9]\d{7,14}$/, 'Invalid phone number'),
-      otherwise: schema => schema.notRequired(),
-    }),
+  phone: yup.string().when('contact_method', {
+    is: (val: ContactMethod) => val === 'phone' || val === 'both',
+    then: schema =>
+      schema.required('Phone is required').matches(/^\+?[0-9]\d{7,14}$/, 'Invalid phone number'),
+    otherwise: schema => schema.notRequired(),
+  }),
 
   age: yup
     .number()
     .transform((value, originalValue) =>
-      originalValue === '' || Number.isNaN(value) ? null : value
+      // to prevent Yup from converting empty string to NaN and showing Yup message
+      originalValue === '' || Number.isNaN(value) ? undefined : value
     )
-    .nullable()
     .typeError('Age must be a valid number')
     .min(1, 'Age must be at least 1')
     .max(150, 'Age must be at most 150'),
 
-  website: yup.string().nullable().url('Invalid URL'),
+  website: yup.string().trim().url('Invalid URL'),
 
-  bio: yup.string().nullable().max(500, 'Maximum 500 characters'),
+  bio: yup.string().trim().max(500, 'Maximum 500 characters'),
 
   country: yup
     .string()
-    .nullable()
+    .trim()
     .matches(/^[A-Za-z\s]+$/, {
       message: 'Country must contain only letters',
       excludeEmptyString: true,

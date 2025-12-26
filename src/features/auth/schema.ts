@@ -4,6 +4,7 @@ export const loginSchema = yup.object({
   username: yup.string().trim().required('Username is required'),
   password: yup
     .string()
+    .trim()
     .required('Password is required')
     .min(8, 'Password must be at least 8 characters'),
 });

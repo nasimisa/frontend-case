@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '../schema';
 import {
@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/shared/utils/routes';
 import { ErrorMessage } from '@/shared/utils/error';
 import { useAppToast } from '@/shared/hooks/useAppToast';
+import { PasswordInput } from '@/shared/components/PasswordInput';
 
 type LoginFormValues = {
   username: string;
@@ -33,6 +34,7 @@ export const LoginForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    control,
   } = useForm<LoginFormValues>({
     resolver: yupResolver(loginSchema),
   });
@@ -71,11 +73,18 @@ export const LoginForm = () => {
 
           <FormControl isInvalid={!!errors.password}>
             <FormLabel>Password</FormLabel>
-            <Input
-              type='password'
-              {...register('password')}
-              autoComplete='current-password'
-              placeholder='Enter password'
+            <Controller
+              name='password'
+              control={control}
+              render={({ field }) => (
+                <PasswordInput
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  autoComplete='current-password'
+                  placeholder='Enter password'
+                />
+              )}
             />
             <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
           </FormControl>
