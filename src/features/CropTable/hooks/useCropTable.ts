@@ -85,6 +85,8 @@ export const useCropTable = () => {
     country,
     status,
     search,
+    region,
+    variety,
 
     // actions
     setPage: (p: number) => updateParams({ page: p }),
