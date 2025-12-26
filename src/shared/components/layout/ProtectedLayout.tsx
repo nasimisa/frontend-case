@@ -16,7 +16,7 @@ export const ProtectedLayout = ({ children }: { children: React.ReactNode }) => 
     }
   }, [isAuthenticated, isLoading, router]);
 
-  if (isLoading) {
+  if (isLoading || !isAuthenticated) {
     return (
       <Center h='100vh'>
         <Spinner />
