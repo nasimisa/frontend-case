@@ -35,6 +35,14 @@ export const UserForm = () => {
   } = useForm<FormValues>({
     resolver: yupResolver(formSchema),
     defaultValues: {
+      full_name: '',
+      email: '',
+      password: '',
+      phone: undefined,
+      age: undefined,
+      website: undefined,
+      bio: undefined,
+      country: undefined,
       contact_method: 'email',
       agree_terms: false,
     },
