@@ -1,6 +1,6 @@
 'use client';
 
-import { ChakraProvider, localStorageManager } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactNode, useState } from 'react';
 import theme from '@/shared/theme';
@@ -11,7 +11,7 @@ export default function Providers({ children }: { children: ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ChakraProvider theme={theme} colorModeManager={localStorageManager}>
+      <ChakraProvider theme={theme}>
         <AuthProvider>{children}</AuthProvider>
       </ChakraProvider>
     </QueryClientProvider>
