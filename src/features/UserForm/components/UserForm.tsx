@@ -17,10 +17,10 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formSchema } from '../schema';
 import { FormValues } from '../types';
-import { submitForm } from '../api';
 import { useAppToast } from '@/shared/hooks/useAppToast';
 import { getApiErrorMessage } from '@/shared/utils/error';
 import { PasswordInput } from '@/shared/components/PasswordInput';
+import { useSubmitForm } from '../api/useSubmitForm';
 
 export const UserForm = () => {
   const { showToast } = useAppToast();
@@ -30,7 +30,7 @@ export const UserForm = () => {
     handleSubmit,
     watch,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     control,
   } = useForm<FormValues>({
     resolver: yupResolver(formSchema),
@@ -50,23 +50,27 @@ export const UserForm = () => {
 
   const contactMethod = watch('contact_method');
 
-  const onSubmit = async (values: FormValues) => {
-    try {
-      await submitForm(values);
+  const { mutateAsync: submitForm, isPending } = useSubmitForm({
+    onSuccess: () => {
       showToast({
         title: 'Success',
         description: 'Form submitted successfully',
         status: 'success',
       });
       reset();
-    } catch (err) {
-      const apiError = getApiErrorMessage(err);
+    },
+    onError: error => {
+      const apiError = getApiErrorMessage(error);
       showToast({
         title: apiError.title,
         description: apiError.message,
         status: 'error',
       });
-    }
+    },
+  });
+
+  const onSubmit = async (values: FormValues) => {
+    await submitForm(values);
   };
 
   return (
@@ -150,7 +154,7 @@ export const UserForm = () => {
             <FormErrorMessage>{errors.agree_terms?.message}</FormErrorMessage>
           </FormControl>
 
-          <Button type='submit' colorScheme='blue' isLoading={isSubmitting} w='full'>
+          <Button type='submit' colorScheme='blue' isLoading={isPending} w='full'>
             Submit
           </Button>
         </VStack>

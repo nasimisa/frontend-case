@@ -1,74 +1,44 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { login as loginApi, logout as logoutApi, fetchCurrentUser } from './api';
+import { createContext, useContext, ReactNode } from 'react';
 import { User } from './types';
-import { setTokens, clearTokens, getAccessToken, getRefreshToken } from '@/shared/utils/token';
-import { getApiErrorMessage } from '@/shared/utils/error';
+import { useGetCurrentUser } from './api/useGetCurrentUser';
+import { useLogin } from './api/useLogin';
+import { useLogout } from './api/useLogout';
 
 interface AuthContextValue {
   user: User | null;
   isAuthenticated: boolean;
+  isLoading: boolean;
   login: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const isAuthenticated = Boolean(user);
-
-  useEffect(() => {
-    const initAuth = async () => {
-      const token = getAccessToken();
-      if (!token) {
-        setIsLoading(false);
-        return;
-      }
-
-      try {
-        const me = await fetchCurrentUser();
-        setUser(me);
-      } catch {
-        clearTokens();
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    initAuth();
-  }, []);
+  const { data: user, isLoading } = useGetCurrentUser();
+  const loginMutation = useLogin();
+  const logoutMutation = useLogout();
 
   const login = async (username: string, password: string) => {
-    try {
-      const { access, refresh } = await loginApi({ username, password });
-      setTokens(access, refresh);
-
-      const me = await fetchCurrentUser();
-      setUser(me);
-    } catch (error) {
-      throw getApiErrorMessage(error);
-    }
+    await loginMutation.mutateAsync({ username, password });
   };
 
   const logout = async () => {
-    try {
-      const refresh = getRefreshToken();
-      if (refresh) {
-        await logoutApi({ refresh });
-      }
-    } finally {
-      clearTokens();
-      setUser(null);
-    }
+    await logoutMutation.mutateAsync();
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, logout, isLoading }}>
+    <AuthContext.Provider
+      value={{
+        user: user ?? null,
+        isAuthenticated: !!user,
+        isLoading,
+        login,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
