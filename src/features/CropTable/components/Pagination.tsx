@@ -39,7 +39,12 @@ export const Pagination = () => {
       </Text>
 
       <HStack spacing={2}>
-        <Button size='sm' onClick={() => setPage(page - 1)} isDisabled={page === 1}>
+        <Button
+          size='sm'
+          onClick={() => setPage(page - 1)}
+          isDisabled={page === 1}
+          variant='outline'
+        >
           Previous
         </Button>
 
@@ -53,7 +58,7 @@ export const Pagination = () => {
           <Button
             key={p}
             size='sm'
-            variant={p === page ? 'solid' : 'ghost'}
+            variant={p === page ? 'outline' : 'ghost'}
             onClick={() => setPage(p)}
           >
             {p}
@@ -66,7 +71,12 @@ export const Pagination = () => {
           </Button>
         )}
 
-        <Button size='sm' onClick={() => setPage(page + 1)} isDisabled={page === totalPages}>
+        <Button
+          size='sm'
+          onClick={() => setPage(page + 1)}
+          isDisabled={page === totalPages}
+          variant='outline'
+        >
           Next
         </Button>
       </HStack>

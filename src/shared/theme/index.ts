@@ -1,11 +1,12 @@
 import { extendTheme } from '@chakra-ui/react';
-import { themeConfig, colors } from './config';
+import { themeConfig, semanticColors, components } from './config';
 
 const theme = extendTheme({
   config: themeConfig,
   semanticTokens: {
-    colors,
+    colors: semanticColors,
   },
+  components,
 });
 
 export default theme;

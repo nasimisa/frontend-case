@@ -1,6 +1,6 @@
 import type { ThemeConfig } from '@chakra-ui/react';
 
-export const colors = {
+export const semanticColors = {
   surface: {
     header: {
       default: 'linear-gradient(135deg, #1e40af, #0891b2)',
@@ -35,12 +35,87 @@ export const colors = {
   /* ACTIONS */
   action: {
     primaryBg: {
-      default: 'white',
-      _dark: 'whiteAlpha.900',
+      default: 'orange.400',
+      _dark: 'orange.400',
+    },
+    primaryHoverBg: {
+      default: 'orange.500',
+      _dark: 'orange.300',
+    },
+    primaryActiveBg: {
+      default: 'orange.600',
+      _dark: 'orange.500',
+    },
+    primaryDisabledBg: {
+      default: 'orange.200',
+      _dark: 'orange.800',
     },
     primaryText: {
-      default: 'blue.700',
-      _dark: 'blue.800',
+      default: 'white',
+      _dark: 'gray.900',
+    },
+    disabledText: {
+      default: 'gray.400',
+      _dark: 'gray.500',
+    },
+  },
+};
+
+export const components = {
+  Button: {
+    baseStyle: {
+      fontWeight: 'semibold',
+      borderRadius: 'md',
+    },
+    variants: {
+      solid: {
+        bg: 'action.primaryBg',
+        color: 'action.primaryText',
+
+        _hover: {
+          bg: 'action.primaryHoverBg',
+        },
+
+        _active: {
+          bg: 'action.primaryActiveBg',
+        },
+
+        _disabled: {
+          bg: 'action.primaryDisabledBg',
+          cursor: 'not-allowed',
+          opacity: 1,
+        },
+      },
+
+      outline: {
+        bg: 'transparent',
+        color: 'action.primaryBg',
+        border: '1px solid',
+        borderColor: 'action.primaryBg',
+
+        _hover: {
+          bg: 'action.primaryBg',
+          color: 'action.primaryText',
+        },
+
+        _active: {
+          bg: 'action.primaryActiveBg',
+          borderColor: 'action.primaryActiveBg',
+        },
+
+        _disabled: {
+          color: 'action.primaryDisabledBg',
+          borderColor: 'action.primaryDisabledBg',
+          cursor: 'not-allowed',
+          opacity: 1,
+
+          _hover: {
+            bg: 'transparent',
+            color: 'action.disabledText',
+            borderColor: 'action.disabledText',
+          },
+        },
+      },
     },
   },
 };

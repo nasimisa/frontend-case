@@ -55,6 +55,18 @@ export const useCropTable = () => {
     window.history.pushState({}, '', `${pathname}?${updated.toString()}`);
   };
 
+  const clearFilters = () => {
+    updateParams({
+      search: undefined,
+      crop_name: undefined,
+      country: undefined,
+      region: undefined,
+      variety: undefined,
+      status: undefined,
+      page: 1,
+    });
+  };
+
   return {
     // data
     rows: data?.results ?? [],
@@ -85,5 +97,6 @@ export const useCropTable = () => {
       status?: string;
     }) => updateParams({ ...filters, page: 1 }),
     setSearch: (value: string) => updateParams({ search: value, page: 1 }),
+    clearFilters,
   };
 };

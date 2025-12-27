@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Input, Select, SimpleGrid, FormControl, FormLabel } from '@chakra-ui/react';
+import { Box, Input, Select, SimpleGrid, FormControl, FormLabel, Button } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useCropTable } from '../hooks/useCropTable';
 import { CropStatus } from '../types';
@@ -16,8 +16,17 @@ const STATUS_OPTIONS: CropStatus[] = [
 ];
 
 export const Filters = () => {
-  const { crop_name, country, region, variety, status, search, setFilters, setSearch } =
-    useCropTable();
+  const {
+    crop_name,
+    country,
+    region,
+    variety,
+    status,
+    search,
+    setFilters,
+    setSearch,
+    clearFilters,
+  } = useCropTable();
 
   const [textFilters, setTextFilters] = useState({
     search,
@@ -50,20 +59,29 @@ export const Filters = () => {
     }
   }, [debouncedFilters, crop_name, country, region, variety, search]);
 
+  const hasActiveFilters = search || crop_name || country || region || variety || status;
+
+  const handleClear = () => {
+    setTextFilters({
+      search: '',
+      crop_name: '',
+      country: '',
+      region: '',
+      variety: '',
+    });
+
+    clearFilters();
+  };
+
   return (
     <Box mb={6}>
-      <SimpleGrid columns={{ base: 1, md: 3, lg: 6 }} spacing={4}>
+      <SimpleGrid columns={{ base: 1, md: 3, lg: 7 }} spacing={4}>
         <FormControl>
           <FormLabel>Search</FormLabel>
           <Input
-            placeholder='Search crops, regions, researchers...'
+            placeholder='Search crops, regions...'
             value={textFilters.search}
-            onChange={e =>
-              setTextFilters(prev => ({
-                ...prev,
-                search: e.target.value,
-              }))
-            }
+            onChange={e => setTextFilters(prev => ({ ...prev, search: e.target.value }))}
           />
         </FormControl>
 
@@ -72,12 +90,7 @@ export const Filters = () => {
           <Input
             placeholder='e.g. Wheat'
             value={textFilters.crop_name}
-            onChange={e =>
-              setTextFilters(prev => ({
-                ...prev,
-                crop_name: e.target.value,
-              }))
-            }
+            onChange={e => setTextFilters(prev => ({ ...prev, crop_name: e.target.value }))}
           />
         </FormControl>
 
@@ -86,12 +99,7 @@ export const Filters = () => {
           <Input
             placeholder='e.g. Brazil'
             value={textFilters.country}
-            onChange={e =>
-              setTextFilters(prev => ({
-                ...prev,
-                country: e.target.value,
-              }))
-            }
+            onChange={e => setTextFilters(prev => ({ ...prev, country: e.target.value }))}
           />
         </FormControl>
 
@@ -100,12 +108,7 @@ export const Filters = () => {
           <Input
             placeholder='e.g. Central'
             value={textFilters.region}
-            onChange={e =>
-              setTextFilters(prev => ({
-                ...prev,
-                region: e.target.value,
-              }))
-            }
+            onChange={e => setTextFilters(prev => ({ ...prev, region: e.target.value }))}
           />
         </FormControl>
 
@@ -114,12 +117,7 @@ export const Filters = () => {
           <Input
             placeholder='e.g. Durum'
             value={textFilters.variety}
-            onChange={e =>
-              setTextFilters(prev => ({
-                ...prev,
-                variety: e.target.value,
-              }))
-            }
+            onChange={e => setTextFilters(prev => ({ ...prev, variety: e.target.value }))}
           />
         </FormControl>
 
@@ -136,6 +134,12 @@ export const Filters = () => {
               </option>
             ))}
           </Select>
+        </FormControl>
+
+        <FormControl display='flex' alignItems='flex-end'>
+          <Button variant='outline' onClick={handleClear} isDisabled={!hasActiveFilters}>
+            Clear
+          </Button>
         </FormControl>
       </SimpleGrid>
     </Box>
