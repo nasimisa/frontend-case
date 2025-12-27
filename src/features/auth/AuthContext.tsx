@@ -8,6 +8,7 @@ import { getAccessToken } from '@/shared/utils';
 interface AuthContextValue {
   user: User | null;
   isAuthenticated: boolean;
+  isFetching: boolean;
   login: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
@@ -15,7 +16,7 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const { data: user } = useGetCurrentUser();
+  const { data: user, isFetching } = useGetCurrentUser();
   const loginMutation = useLogin();
   const logoutMutation = useLogout();
 
@@ -34,6 +35,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       value={{
         user: user ?? null,
         isAuthenticated: !!hasToken,
+        isFetching,
         login,
         logout,
       }}

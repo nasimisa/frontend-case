@@ -3,17 +3,21 @@
 import { useAuth } from '@/features/auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { ROUTES } from '@/shared/utils/routes';
+import { ROUTES } from '@/shared/utils';
 
 export const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isFetching } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isFetching && !isAuthenticated) {
       router.replace(ROUTES.LOGIN);
     }
-  }, [isAuthenticated]);
+  }, [isFetching, isAuthenticated, router]);
+
+  if (isFetching || !isAuthenticated) {
+    return null;
+  }
 
   return <>{children}</>;
 };

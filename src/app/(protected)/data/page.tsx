@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 export default function DataPage() {
   return (
     <Suspense fallback={null}>
-      <CropTable />;
+      <CropTable />
     </Suspense>
   );
 }
