@@ -2,7 +2,7 @@
 
 import { usePathname, useSearchParams } from 'next/navigation';
 import { getNumberParam, getStringParam } from '../utils';
-import { useGetCropTable } from '../api/useGetCropTable';
+import { useGetCropTable } from '../api';
 
 export const useCropTable = () => {
   const searchParams = useSearchParams();

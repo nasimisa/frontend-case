@@ -1,7 +1,7 @@
 'use client';
 
 import { Flex, Text, Button, HStack, Box } from '@chakra-ui/react';
-import { useAuth } from '@/features/Auth/useAuth';
+import { useAuth } from '@/features/Auth';
 import { usePathname, useRouter } from 'next/navigation';
 import { ColorModeToggle } from '../ui';
 import { NAV_ITEMS, ROUTES } from '@/shared/utils';

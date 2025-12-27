@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Button, HStack, Select, Text } from '@chakra-ui/react';
-import { useCropTable } from '../hooks/useCropTable';
+import { useCropTable } from '../hooks';
 
 const PAGE_SIZES = [10, 25, 50, 100];
 

@@ -2,7 +2,7 @@
 
 import { Box, Input, Select, SimpleGrid, FormControl, FormLabel, Button } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { useCropTable } from '../hooks/useCropTable';
+import { useCropTable } from '../hooks';
 import { CropStatus } from '../types';
 import { useDebounce } from '@/shared/hooks';
 

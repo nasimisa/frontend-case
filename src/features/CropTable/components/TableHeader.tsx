@@ -2,7 +2,7 @@
 
 import { Tr, Th, Icon } from '@chakra-ui/react';
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
-import { useCropTable } from '../hooks/useCropTable';
+import { useCropTable } from '../hooks';
 import { TABLE_COLUMNS } from '../constants';
 
 const HeaderCell = ({ label, field }: { label: string; field: string }) => {

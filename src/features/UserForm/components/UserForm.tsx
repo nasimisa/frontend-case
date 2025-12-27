@@ -20,7 +20,7 @@ import { FormValues } from '../types';
 import { useAppToast } from '@/shared/hooks';
 import { getApiErrorMessage } from '@/shared/utils';
 import { PasswordInput } from '@/shared/components/ui';
-import { useSubmitForm } from '../api/useSubmitForm';
+import { useSubmitForm } from '../api';
 
 export const UserForm = () => {
   const { showToast } = useAppToast();

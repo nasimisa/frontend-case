@@ -1,8 +1,6 @@
 'use client';
 
-import { Filters } from './components/Filters';
-import { Pagination } from './components/Pagination';
-import { Table } from './components/Table';
+import { Filters, Pagination, Table } from './components';
 
 export const CropTable = () => {
   return (

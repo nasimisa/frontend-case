@@ -1,5 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { refreshAccessToken } from '@/features/Auth/api';
+import { refreshAccessToken } from '@/features/Auth';
 import { ROUTES, getAccessToken, getRefreshToken, clearTokens, setAccessToken } from '../utils';
 
 const apiClient = axios.create({

@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Table as ChakraTable, Thead, Tbody, Tr, Td, Skeleton, Text } from '@chakra-ui/react';
-import { useCropTable } from '../hooks/useCropTable';
+import { useCropTable } from '../hooks';
 import { TableHeader } from './TableHeader';
 
 const SKELETON_ROWS = 5;
