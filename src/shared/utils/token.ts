@@ -18,3 +18,7 @@ export const clearTokens = () => {
   localStorage.removeItem(ACCESS_TOKEN_KEY);
   localStorage.removeItem(REFRESH_TOKEN_KEY);
 };
+
+export const setAccessToken = (access: string) => {
+  localStorage.setItem(ACCESS_TOKEN_KEY, access);
+};

@@ -8,8 +8,6 @@ import { useLogout } from './api/useLogout';
 
 interface AuthContextValue {
   user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
   login: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
@@ -17,7 +15,7 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const { data: user, isLoading } = useGetCurrentUser();
+  const { data: user } = useGetCurrentUser();
   const loginMutation = useLogin();
   const logoutMutation = useLogout();
 
@@ -33,8 +31,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         user: user ?? null,
-        isAuthenticated: !!user,
-        isLoading,
         login,
         logout,
       }}
