@@ -17,7 +17,7 @@ interface FetchCropTableParams {
   simulate_error?: boolean;
 }
 
-export const fetchCropTable = async (params: FetchCropTableParams): Promise<CropTableResponse> => {
+const fetchCropTable = async (params: FetchCropTableParams): Promise<CropTableResponse> => {
   const { data } = await apiClient.get<CropTableResponse>('/api/table/data/', { params });
 
   return data;
