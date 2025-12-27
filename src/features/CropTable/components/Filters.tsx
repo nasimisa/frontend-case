@@ -30,15 +30,25 @@ export const Filters = () => {
   const debouncedFilters = useDebounce(textFilters, 400);
 
   useEffect(() => {
-    setSearch(debouncedFilters.search);
+    if (debouncedFilters.search !== search) {
+      setSearch(debouncedFilters.search);
+    }
 
-    setFilters({
-      crop_name: debouncedFilters.crop_name,
-      country: debouncedFilters.country,
-      region: debouncedFilters.region,
-      variety: debouncedFilters.variety,
-    });
-  }, [debouncedFilters, setFilters, setSearch]);
+    const filtersChanged =
+      debouncedFilters.crop_name !== crop_name ||
+      debouncedFilters.country !== country ||
+      debouncedFilters.region !== region ||
+      debouncedFilters.variety !== variety;
+
+    if (filtersChanged) {
+      setFilters({
+        crop_name: debouncedFilters.crop_name,
+        country: debouncedFilters.country,
+        region: debouncedFilters.region,
+        variety: debouncedFilters.variety,
+      });
+    }
+  }, [debouncedFilters, crop_name, country, region, variety, search]);
 
   return (
     <Box mb={6}>
