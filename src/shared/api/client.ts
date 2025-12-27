@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { getAccessToken } from '@/shared/utils/token';
+import axios, { AxiosError } from 'axios';
+import { getAccessToken, clearTokens } from '@/shared/utils/token';
 
 const apiClient = axios.create({
   baseURL: 'https://backendcase.infodecs.dev',
@@ -17,5 +17,16 @@ apiClient.interceptors.request.use(config => {
 
   return config;
 });
+
+apiClient.interceptors.response.use(
+  response => response,
+  (error: AxiosError) => {
+    if (error.response?.status === 401) {
+      clearTokens();
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export default apiClient;
