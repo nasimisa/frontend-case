@@ -15,10 +15,9 @@ import {
 } from '@chakra-ui/react';
 import { useAuth } from '../useAuth';
 import { useRouter } from 'next/navigation';
-import { ROUTES } from '@/shared/utils/routes';
-import { ErrorMessage } from '@/shared/utils/error';
-import { useAppToast } from '@/shared/hooks/useAppToast';
-import { PasswordInput } from '@/shared/components/PasswordInput';
+import { ErrorMessage, ROUTES } from '@/shared/utils';
+import { useAppToast } from '@/shared/hooks';
+import { PasswordInput } from '@/shared/components/ui';
 
 type LoginFormValues = {
   username: string;

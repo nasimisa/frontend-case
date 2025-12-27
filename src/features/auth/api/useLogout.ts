@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { clearTokens, getRefreshToken } from '@/shared/utils/token';
+import { clearTokens, getRefreshToken } from '@/shared/utils';
 import { LogoutPayload } from '../types';
 import apiClient from '@/shared/api/client';
 

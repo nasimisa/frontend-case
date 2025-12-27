@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { getAccessToken } from '@/shared/utils/token';
+import { getAccessToken } from '@/shared/utils';
 import apiClient from '@/shared/api/client';
 import { User } from '../types';
 

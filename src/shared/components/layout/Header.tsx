@@ -3,8 +3,8 @@
 import { Flex, Text, Button, HStack, Box } from '@chakra-ui/react';
 import { useAuth } from '@/features/Auth/useAuth';
 import { usePathname, useRouter } from 'next/navigation';
-import { ColorModeToggle } from '../ui/ColorModeToggle';
-import { NAV_ITEMS, ROUTES } from '@/shared/utils/routes';
+import { ColorModeToggle } from '../ui';
+import { NAV_ITEMS, ROUTES } from '@/shared/utils';
 
 export const Header = () => {
   const { user, logout } = useAuth();

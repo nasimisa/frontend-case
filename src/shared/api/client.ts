@@ -1,7 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { getAccessToken, getRefreshToken, clearTokens, setAccessToken } from '@/shared/utils/token';
-import { refreshAccessToken } from '@/features/Auth/api/refreshAccessToken';
-import { ROUTES } from '../utils/routes';
+import { refreshAccessToken } from '@/features/Auth/api';
+import { ROUTES, getAccessToken, getRefreshToken, clearTokens, setAccessToken } from '../utils';
 
 const apiClient = axios.create({
   baseURL: 'https://backendcase.infodecs.dev',

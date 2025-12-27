@@ -4,7 +4,7 @@ import { Box, Input, Select, SimpleGrid, FormControl, FormLabel, Button } from '
 import { useEffect, useState } from 'react';
 import { useCropTable } from '../hooks/useCropTable';
 import { CropStatus } from '../types';
-import { useDebounce } from '@/shared/hooks/useDebounce';
+import { useDebounce } from '@/shared/hooks';
 
 const STATUS_OPTIONS: CropStatus[] = [
   'planned',

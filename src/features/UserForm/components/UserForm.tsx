@@ -17,9 +17,9 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formSchema } from '../schema';
 import { FormValues } from '../types';
-import { useAppToast } from '@/shared/hooks/useAppToast';
-import { getApiErrorMessage } from '@/shared/utils/error';
-import { PasswordInput } from '@/shared/components/PasswordInput';
+import { useAppToast } from '@/shared/hooks';
+import { getApiErrorMessage } from '@/shared/utils';
+import { PasswordInput } from '@/shared/components/ui';
 import { useSubmitForm } from '../api/useSubmitForm';
 
 export const UserForm = () => {

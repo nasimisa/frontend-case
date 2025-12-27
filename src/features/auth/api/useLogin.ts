@@ -1,8 +1,7 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { setTokens } from '@/shared/utils/token';
-import { getApiErrorMessage } from '@/shared/utils/error';
+import { getApiErrorMessage, setTokens } from '@/shared/utils';
 import { AuthResponse, LoginPayload } from '../types';
 import apiClient from '@/shared/api/client';
 

@@ -85,6 +85,14 @@ export const components = {
           cursor: 'not-allowed',
           opacity: 1,
         },
+
+        _loading: {
+          bg: 'action.primaryBg',
+          color: 'action.primaryText',
+          _hover: {
+            bg: 'action.primaryBg',
+          },
+        },
       },
 
       outline: {

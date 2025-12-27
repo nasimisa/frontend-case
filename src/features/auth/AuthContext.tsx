@@ -2,12 +2,12 @@
 
 import { createContext, useContext, ReactNode } from 'react';
 import { User } from './types';
-import { useGetCurrentUser } from './api/useGetCurrentUser';
-import { useLogin } from './api/useLogin';
-import { useLogout } from './api/useLogout';
+import { useGetCurrentUser, useLogin, useLogout } from './api';
+import { getAccessToken } from '@/shared/utils';
 
 interface AuthContextValue {
   user: User | null;
+  isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
@@ -27,10 +27,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await logoutMutation.mutateAsync();
   };
 
+  const hasToken = getAccessToken();
+
   return (
     <AuthContext.Provider
       value={{
         user: user ?? null,
+        isAuthenticated: !!hasToken,
         login,
         logout,
       }}
