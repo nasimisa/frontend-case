@@ -114,6 +114,8 @@ npm run dev
 npm run build
 ```
 
+### 🌐 Live url: https://frontend-case-nasimi.netlify.app
+
 ### 🔑 Test Credentials
 
 ```bash
@@ -136,6 +138,7 @@ Backend API is provided and hosted at:
 - Move auth tokens to httpOnly cookies (backend support required)
 - Make the app more responsive for small screens (e.g. infinite scrolling logic for small screens instead of table)
 - We can move filters to separate modal
+- add some data for home page
 - Row detail view on click with modal opening
 - Sign up page
 - Unit tests
