@@ -1,36 +1,141 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Frontend Case
 
-## Getting Started
+A frontend application built with **Next.js App Router** that demonstrates authentication, form handling, and efficient rendering of large, server-side paginated datasets (1M+ records).
 
-First, run the development server:
+The project focuses on **real-world frontend architecture**, performance, and clean separation between server and client responsibilities.
+
+---
+
+## 🚀 Tech Stack
+
+- **Next.js 15 (App Router)**
+- **React 18**
+- **TypeScript**
+- **Chakra UI** (theming, dark/light mode)
+- **TanStack React Query** (data fetching & caching)
+- **React Hook Form + Yup** (forms & validation)
+- **Axios** (API client)
+- **Netlify** (deployment)
+
+---
+
+## ✅ Requirements Coverage
+
+### Authentication
+- Login with client-side validation
+- Token-based authentication (access + refresh)
+- Automatic token refresh on 401 responses
+- Logout clears tokens and cached user state
+- Protected routes with redirect for unauthenticated users
+- Authenticated user displayed in header
+
+### Form Page
+- 10 validated fields matching backend rules
+- Conditional validation (phone required based on contact method)
+- Real-time validation feedback
+- Loading & disabled states during submission
+- Duplicate submissions prevented
+
+### Data Table (1M+ Records)
+- Server-side pagination (10 / 25 / 50 / 100)
+- Server-side sorting with visual indicators
+- Debounced search across multiple fields
+- Debounced filters (crop, country, region, variety, status)
+- URL-synced state (page, filters, sorting)
+- Responsive UI during loading
+
+### UI / UX
+
+- Dark / light mode
+- Semantic theming tokens
+- Accessible form controls
+- Clear loading & empty states
+
+---
+
+## 🧠 Architectural Decisions
+
+### App Router & Client / Server Separation
+
+- Pages and layouts are **server components**
+- Browser-dependent logic is isolated into **client components**
+- Hooks using `useSearchParams`, `window`, or React Query never execute on the server
+- `<Suspense>` is used where required to avoid CSR bailout errors
+
+This avoids hydration issues, build-time crashes, and unnecessary client rendering.
+
+---
+
+### Authentication Strategy
+
+- Access & refresh tokens stored in `localStorage` (although it is not secure)
+- Axios interceptor attaches access token automatically
+- Refresh token logic retries failed requests once
+- Auth-guarded layout prevents unauthorized UI flicker
+
+> Note: Storing tokens in httpOnly cookies would be more secure, but the backend API does not support this. Given the constraints, client-side token storage with guarded rendering was chosen as a pragmatic solution. Ideally it is better to store access tokens in memory and refresh tokens in httpOnly cookies
+
+---
+
+### Data Fetching & Performance
+
+- React Query is used for:
+  - Caching
+  - Background refetching
+  - Loading/error states
+- Server-side pagination ensures scalability
+- Filters & search are debounced to avoid network load
+- Table state is URL-driven (bookmarkable & shareable)
+
+---
+
+## 🛠️ Setup & Run
+
+### Prerequisites
+
+- Node.js **18+**
+- npm or pnpm
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Run in development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Build for production
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🔑 Test Credentials
 
-## Learn More
+```bash
+Username: testuser
+Password: Test1234!
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
+### 🌍 API Reference
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Backend API is provided and hosted at:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Base URL: https://backendcase.infodecs.dev
+- Swagger UI: https://backendcase.infodecs.dev/api/docs/
+- ReDoc: https://backendcase.infodecs.dev/api/redoc/
 
-## Deploy on Vercel
+---
+### 🔮 Possible Improvements
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Move auth tokens to httpOnly cookies (backend support required)
+- Make the app more responsive for small screens (e.g. infinite scrolling logic for small screens instead of table)
+- We can move filters to separate modal
+- Row detail view on click with modal opening
+- Sign up page
+- Unit tests
