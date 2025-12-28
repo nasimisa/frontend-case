@@ -22,9 +22,20 @@ const HeaderCell = ({ label, field }: { label: string; field: string }) => {
   };
 
   return (
-    <Th cursor='pointer' userSelect='none' whiteSpace='nowrap' onClick={handleClick}>
+    <Th
+      cursor='pointer'
+      userSelect='none'
+      whiteSpace='nowrap'
+      onClick={handleClick}
+      _hover={{ bg: 'gray.50' }}
+    >
       {label}
-      {isActive && <Icon as={isDesc ? TriangleDownIcon : TriangleUpIcon} ml={2} />}
+      <Icon
+        as={isDesc || !ordering ? TriangleDownIcon : TriangleUpIcon}
+        ml={2}
+        opacity={isActive ? 1 : 0.25}
+        transition='opacity 0.15s'
+      />
     </Th>
   );
 };
